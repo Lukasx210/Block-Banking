@@ -1,1 +1,1 @@
-[PBFT Blockchain]
+In my PBFT Blockchain each node is a Docker container that we deploy on a Eureka server using Kubernetes. Kubernetes then scales and manages these containers as pods, Kubernetes also allows the pods to recognise eachother and communicate using HTTP messages (we define this logic in our PBFTConsensus Java class). This will allow our nodes to reach consensus on transactions as they would in a real Practical Byzantine Fault Tolerance Blockchain.
