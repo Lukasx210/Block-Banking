@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: pbft-service
+spec:
+  clusterIP: None  # Headless Service for StatefulSet
+  selector:
+    app: pbft-node
+  ports:
+    - port: 8080
+      targetPort: 8080

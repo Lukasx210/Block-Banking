@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: pbft-node
+spec:
+  serviceName: pbft-service
+  replicas: 7
+  selector:
+    matchLabels:
+      app: pbft-node
+  template:
+    metadata:
+      labels:
+        app: pbft-node
+    spec:
+      containers:
+        - name: node
+          image: lukasklc/blockchain-node:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+              name: http
+            - containerPort: 8443
+              name: https
+          env:
+            - name: EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE
+              value: "http://eureka-0.eureka.default.svc.cluster.local:8761/eureka"
+            - name: SPRING_APPLICATION_NAME
+              value: "pbft-node"
+            - name: SERVER_PORT
+              value: "8080"
+          command: ["sh", "-c", "sleep 30 && java -jar /app/app.jar"]
+          readinessProbe:
+            httpGet:
+              path: /actuator/health
+              port: http
+            initialDelaySeconds: 60
+          volumeMounts:
+            - name: blockchain-data
+              mountPath: /blockchain-data
+  volumeClaimTemplates:
+    - metadata:
+        name: blockchain-data
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        resources:
+          requests:
+            storage: 100Gi

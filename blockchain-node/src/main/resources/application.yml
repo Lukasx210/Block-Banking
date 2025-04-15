@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: blockchain-node
+  cloud:
+    discovery:
+      enabled: true
+
+server:
+  port: 8080
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://eureka:8761/eureka
+    healthcheck:
+      enabled: true
+
+blockchain:
+  difficulty: 5

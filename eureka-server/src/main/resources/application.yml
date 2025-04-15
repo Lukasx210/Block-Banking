@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: eureka-server
+
+server:
+  port: 8761
+
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    register-with-eureka: false
+    fetch-registry: false
+    service-url:
+      defaultZone: http://${EUREKA_INSTANCE_HOSTNAME}:${server.port}/eureka
+
+logging:
+  level:
+    org.springframework.cloud.netflix: INFO
